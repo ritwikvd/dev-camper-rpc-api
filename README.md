@@ -1,4 +1,4 @@
-> API endpoints can be hit here: [API](dev-camper-rpc-api.herokuapp.com).
+> API endpoints can be hit here: [API](https://dev-camper-rpc-api.herokuapp.com/).
 
 ## **Dev Camper API**
 
