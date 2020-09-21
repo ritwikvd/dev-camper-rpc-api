@@ -1,0 +1,1 @@
+module.exports = (res, status, props, success) => res.status(status).json({ success: success ? true : false, ...props });
