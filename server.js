@@ -73,9 +73,9 @@ app.use("/api/v1/reviews", reviews);
 //
 
 //Use React build
-app.use(express.static("../client-react-redux/build"));
+// app.use(express.static("../client-react-redux/build"));
 
-app.get("*", (_, res) => res.sendFile(path.resolve("../client-react-redux/build/index.html")));
+// app.get("*", (_, res) => res.sendFile(path.resolve("../client-react-redux/build/index.html")));
 //
 
 //Error middleware
