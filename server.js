@@ -45,7 +45,11 @@ app.use(cors());
 
 //Security middleware
 app.use(sanitize());
-app.use(helmet());
+app.use(
+	helmet({
+		contentSecurityPolicy: false
+	})
+);
 app.use(xss());
 app.use(hpp());
 
@@ -59,10 +63,6 @@ app.use(limiter);
 
 //Response middleware
 app.use(nocache());
-app.use((_, res, next) => {
-	res.setHeader("Content-Security-Policy", "script-src 'self' https://kit.fontawesome.com/3da1a747b2.js");
-	return next();
-});
 //
 
 //Set routers
