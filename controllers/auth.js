@@ -186,7 +186,7 @@ async function resetPassword(req, res, next) {
 	});
 
 	if (!user)
-		return response(res, 400, { data: "Your password could not be updated because your token has expired, please try again" }, false);
+		return response(res, 400, { message: "Your password could not be updated because your token has expired, please try again" }, false);
 
 	user.password = req.body.password;
 	user.resetPasswordToken = undefined;
@@ -202,7 +202,6 @@ async function resetPassword(req, res, next) {
 		.json({
 			success: true,
 			token,
-			data: "Your password has been reset",
 			user: { name: user.name, role: user.role, email: user.email, id: user._id }
 		});
 }
