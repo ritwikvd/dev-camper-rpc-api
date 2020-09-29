@@ -34,7 +34,7 @@ async function getCourse(req, res) {
 }
 
 // @desc Create a course
-// @route POST /api/v1/courses/:id
+// @route POST /api/v1/courses
 // @access Private
 exports.createCourse = asyncHandler(createCourse);
 
@@ -57,7 +57,9 @@ async function createCourse(req, res) {
 
 	if (!course) return response(res, 400, { message: "Error creating course" }, false);
 
-	response(res, 200, { data: course }, true);
+	const { averageCost: avgCost } = await Bootcamp.findById(bootcamp.id).select("averageCost");
+
+	response(res, 200, { data: course, avgCost }, true);
 }
 
 // @desc Update a course
@@ -74,16 +76,21 @@ async function updateCourse(req, res) {
 
 	const canUpdate = ["admin"].includes(role);
 
-	if (!canUpdate && userId != course.user) return response(res, 401, { message: `You cannot update this course from this bootcamp` }, false);
+	if (!canUpdate && userId != course.user)
+		return response(res, 401, { message: `You cannot update this course from this bootcamp` }, false);
 
 	course = await Course.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true
 	});
 
+	await course.save();
+
+	const { averageCost: avgCost } = await Bootcamp.findById(course.bootcamp).select("averageCost");
+
 	if (!course) return response(res, 404, { message: "No course found" }, false);
 
-	response(res, 200, { data: course }, true);
+	response(res, 200, { data: course, avgCost }, true);
 }
 
 // @desc Delete a course
@@ -100,9 +107,12 @@ async function deleteCourse(req, res) {
 
 	const canUpdate = ["admin"].includes(role);
 
-	if (!canUpdate && userId != course.user) return response(res, 401, { message: `You cannot delete this course from this bootcamp` }, false);
+	if (!canUpdate && userId != course.user)
+		return response(res, 401, { message: `You cannot delete this course from this bootcamp` }, false);
 
 	await course.remove();
 
-	response(res, 200, { data: course }, true);
+	const { averageCost: avgCost } = await Bootcamp.findById(course.bootcamp).select("averageCost");
+
+	response(res, 200, { data: course, avgCost }, true);
 }

@@ -3,7 +3,7 @@ const ErrorResponse = require("../utils/errorResponse");
 module.exports = (err, req, res, next) => {
 	const error = new ErrorResponse("Something went wrong", 500);
 
-	console.log(err.red);
+	console.error(err);
 
 	if ([11000].includes(err.code)) error.status = 400;
 
@@ -28,5 +28,5 @@ module.exports = (err, req, res, next) => {
 			break;
 	}
 
-	res.status(error.status).json({ success: false, error: error.message });
+	res.status(200).json({ success: false, error: error.message });
 };

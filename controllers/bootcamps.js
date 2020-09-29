@@ -38,7 +38,7 @@ exports.getBootcampByUser = asyncHandler(getByUserId);
 async function getByUserId(req, res, next) {
 	const camp = await Bootcamp.find({ user: req.params.id }).populate({ path: "courses" });
 
-	if (!camp || !camp.length) return response(res, 404, { message: `No bootcamp with id: ${req.params.id}  found` }, false);
+	if (!camp || !camp.length) return response(res, 200, { message: `No bootcamp with id: ${req.params.id}  found` }, false);
 
 	response(res, 200, { data: camp[0] }, true);
 }
@@ -49,6 +49,8 @@ async function getByUserId(req, res, next) {
 exports.createBootcamp = asyncHandler(create);
 
 async function create(req, res, next) {
+	console.log(req.body);
+
 	const { id, role } = req.user;
 
 	if (role != "admin") {

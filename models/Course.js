@@ -61,16 +61,16 @@ CourseSchema.statics.getAverageCost = async function (bootcamp) {
 	]);
 
 	await this.model("Bootcamp").findByIdAndUpdate(bootcamp, {
-		averageCost: Math.ceil(arr[0]?.averageCost) || undefined
+		averageCost: Math.ceil(arr[0]?.averageCost) || 0
 	});
 };
 
-CourseSchema.post("remove", function () {
-	this.constructor.getAverageCost(this.bootcamp);
+CourseSchema.post("remove", async function () {
+	await this.constructor.getAverageCost(this.bootcamp);
 });
 
-CourseSchema.post("save", function () {
-	this.constructor.getAverageCost(this.bootcamp);
+CourseSchema.post("save", async function () {
+	await this.constructor.getAverageCost(this.bootcamp);
 });
 
 module.exports = mongoose.model("Course", CourseSchema);
