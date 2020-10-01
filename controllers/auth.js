@@ -47,7 +47,7 @@ async function loginUser(req, res, next) {
 
 	const user = await User.findOne({ email }).select("name role email password");
 
-	if (!user || !(await user.matchPassword(password))) return response(res, 401, { message: "Invalid credentials" }, false);
+	if (!user || !(await user.matchPassword(password))) return response(res, 200, { message: "Invalid credentials" }, false);
 
 	const { token, options } = getTokenForUser(user);
 
@@ -118,7 +118,7 @@ async function updatePassword(req, res, next) {
 
 	if (!user) return response(res, 500, { message: "User could not be retrieved" }, false);
 
-	if (!(await user.matchPassword(req.body.currentPassword))) return response(res, 401, { message: "Current password is incorrect" }, false);
+	if (!(await user.matchPassword(req.body.currentPassword))) return response(res, 200, { message: "Current password is incorrect" }, false);
 
 	user.password = req.body.newPassword;
 
