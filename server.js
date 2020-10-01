@@ -66,7 +66,7 @@ app.use(nocache());
 //
 
 //Set routers
-app.get("/", (_, res) => res.end("You might be looking for this: https://dev-camper-client-react-redux.herokuapp.com/"));
+app.get("/", (_, res) => res.end("You might be looking for this: https://dev-camper-rrr.herokuapp.com/"));
 app.use("/api/v1/bootcamps", bootcamp);
 app.use("/api/v1/courses", course);
 app.use("/api/v1/auth", auth);
